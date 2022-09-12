@@ -1,6 +1,7 @@
-import { useTasks } from "../context/TaskProvider";
+ import { useTasks } from "../context/TaskProvider";
 import { useNavigate } from "react-router-dom";
-
+import {deleteTaskRequest} from '../api/tasks.api';
+/*
 function TaskCard({ task }) {
   const { deleteTask, toggleTaskDone } = useTasks();
   const navigate = useNavigate();
@@ -38,6 +39,23 @@ function TaskCard({ task }) {
         </button>
       </div>
     </div>
+  );
+} */
+function TaskCard({task}){
+  const { deleteTask } = useTasks();
+  const navigate = useNavigate()
+  return(
+          <div className=" bg-zinc-700 text-white rounded-md p-5">
+          <p className="text-xs ">{task.id}</p>
+          <p className="text-xs">{task.nombre}</p>
+          <p className="text-xs">{task.descripcion}</p>
+          <p className="text-xs">{( task.estado == 1 ) ? "Activo" : "No Activo"}
+          </p>
+          <button  className="bg-slate-300 px-2 py-1 text-black mt-2" onClick={()=> deleteTask(task.id)
+          }>Delete</button>
+          <button  className="bg-slate-300 px-2 py-1 text-black ml-3" onClick={()=> navigate(`/edit/${task.id}`)}>Edit</button>
+    </div>
+
   );
 }
 

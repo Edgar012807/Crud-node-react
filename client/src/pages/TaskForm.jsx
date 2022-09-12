@@ -1,55 +1,11 @@
-
-import { Form, Formik } from "formik";
-import {createTaskRequest} from '../api/tasks.api'
-
-function TaskForm(){
-  return (
-   <Formik 
-   
-   initialValues={{
-      title: "",
-      description: "",
-  }}
-  onSubmit ={async (values)=>{
-    console.log(values);
-
-    try {
-      const response = await  createTaskRequest(values);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-    
-  }}
-   >
-    {({handleChange , handleSubmit})=> (
-      <Form  onSubmit={handleSubmit}>
-      <label name="title" type="text" placeholder="titulo">Nombre</label>
-      <input type="text" name="title" id=""
-      onChange={handleChange}
-      />
-
-      <label name="title" type="text">Apellido</label>
-      <input type="text" name="desciption" id="" onChange={handleChange}
-      />
-
-      <button >save</button>
-    </Form>
-    )}
-    
-   </Formik>
-  )
-}
-/* 
-import { useTasks } from "../context/TaskProvider";
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Form, Formik } from "formik"; // formulario  
+import { useTasks } from "../context/TaskProvider"; //contextos 
+import { useParams, useNavigate } from "react-router-dom"; // rutas 
+import { useEffect, useState } from "react"; //  
 
 function TaskForm() {
   const { createTask, getTask, updateTask } = useTasks();
-  const [task, setTask] = useState({
-    title: "",
-    description: "",
+  const [task, setTask] = useState({ title: "", description: "", usuario:"",
   });
   const params = useParams();
   const navigate = useNavigate();
@@ -60,8 +16,8 @@ function TaskForm() {
         const task = await getTask(params.id);
         console.log(task);
         setTask({
-          title: task.title,
-          description: task.description,
+          title: task.nombre,
+          description: task.descripcion,
         });
       }
     };
@@ -70,6 +26,7 @@ function TaskForm() {
 
   return (
     <div>
+
       <Formik
         initialValues={task}
         enableReinitialize={true}
@@ -77,6 +34,7 @@ function TaskForm() {
           console.log(values);
           if (params.id) {
             await updateTask(params.id, values);
+            console.log(values);
           } else {
             await createTask(values);
           }
@@ -89,46 +47,52 @@ function TaskForm() {
       >
         {({ handleChange, handleSubmit, values, isSubmitting }) => (
           <Form
+           className="bg-slate-300 max-w-sm rounded-md p-4 mx-auto mt-10"
             onSubmit={handleSubmit}
-            className="bg-slate-300 max-w-sm rounded-md p-4 mx-auto mt-10"
+            
           >
-            <h1 className="text-xl font-bold uppercase text-center">
+            <h1 className="text-xl font-bold uppercase text-center px-2 mt-10">
               {params.id ? "Edit Task" : "New Task"}
             </h1>
-            <label className="block">title</label>
+            <label  className="block">Titulo</label>
             <input
               type="text"
               name="title"
-              placeholder="Write a title"
+              placeholder="Ingrese Titulo"
               className="px-2 py-1 rounded-sm w-full"
+              required
+             
               onChange={handleChange}
               value={values.title}
             />
 
-            <label className="block">description</label>
+            <label  className="block" >descripcion</label>
             <textarea
               name="description"
               rows="3"
-              placeholder="Write a description"
-              onChange={handleChange}
+              required
+              placeholder="Ingresar una descripcion "
               className="px-2 py-1 rounded-sm w-full"
+              onChange={handleChange}
+              
               value={values.description}
             ></textarea>
 
             <button
               type="submit"
-              disabled={isSubmitting}
               className="block bg-indigo-500 px-2 py-1 text-white w-full rounded-md"
+              disabled={isSubmitting}
+             
             >
               {isSubmitting ? "Saving..." : "Save"}
             </button>
+
+    
           </Form>
         )}
       </Formik>
     </div>
   );
 }
-
-export default TaskForm; */
 
 export default TaskForm;

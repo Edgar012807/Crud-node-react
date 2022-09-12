@@ -1,4 +1,4 @@
- const PORT = 5260;
- module.exports = {
-    PORT: PORT
+const PORT = 5264;
+module.exports = {
+  PORT: PORT,
 };
